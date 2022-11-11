@@ -60,7 +60,7 @@ function getData(latitude, longitude) {
     })
 
 }
-
+// hola
 //consigo el clima de mi ubicacion actual
 miLocalizacion.addEventListener('click', () => {
   if (navigator.geolocation) {
