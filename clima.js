@@ -12,45 +12,15 @@ let fechaDia = document.getElementById("fechaDia")
 let min = document.getElementById("min")
 let max = document.getElementById("max")
 
-const hourlyWeatherData = document.getElementById('weather-forecast')
-const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+const climaPorHora = document.getElementById('weather-forecast')
+const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
 const ciudadLabel = document.getElementById('ciudad');
 
 //capturamos el elemento selecionado del "selector de ciudades"
 const select = document.getElementById("select");
 //const searchCity = document.getElementById("search").addEventListener("click", getClima);
-const myLocalizacion = document.getElementById("myLocation");
+const miLocalizacion = document.getElementById("myLocation");
 
-
-/*************************************************************** */
-//TO DO
-//ACOMODAR LOS NOMBRES DE LOS ELEMENTOS DEL MOSTRARDIARIOBYFOR()
-//USAR ALGUN COMPONENTE DE BOOSTRAP 5
-//AHORA MUESTRA DIARIO, PERO TARIA BUENO QUE TAMBIEN MOSTRARA POR HORA (CLIMA POR HORA (VER CODIGO DE CYWEATHER))
-//cambiar el fondo de panatlla dia-noche (segun la hora (VER CODIGO WEATHER-MAIN))
-//HACER QUE APENAS ENTRE A LA PAGINA WEB, DETECTE LA UBICACION  (VER CODIGO WEATHER-MAIN)
-//USAR OTRA API (api.bigdatacloud.net) PARA QUE TRAIGA EL NOMBRE DE LA CIUDAD Y PAIS CON LOS DATOS DE LATITUD Y LONGITUD (VER CODIGO WEATHER-MAIN)
-
-//displayBackgroundImage(data);
-//mostrara los datos en pantalla
-// displayData(data);
-/*************************************************************** */
-
-
-//que me pida una ciudad
-//windown.onload=()=>{
-//  getweatherData("sau paulo")
-//}
-
-
-//COMENTO la funcion del boton BUSCAR porque ya no muestro el boton
-//porque al selecionar del SELECT OPTION ya se ejecuta la consulta al API
-
-// function getClima() {
-//   document.getElementById("search").innerHTML = "ENCONTRADO!";
-//     getData(lat.value, long.value)
-//     hourlyWeatherData.innerHTML = ''
-// }
 
 //despues que se carga la pagina se ejecuta esta funcion
 window.onload = function () {
@@ -80,7 +50,7 @@ select.addEventListener("change", opcionCambiada);
 
 
 function getData(latitude, longitude) {
-  hourlyWeatherData.innerHTML = ''
+  climaPorHora.innerHTML = ''
 
   fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,cloudcover_mid,windspeed_120m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,rain_sum,windgusts_10m_max,weathercode&timezone=auto&current_weather=true`)
     .then(res => res.json()).then(data => {
@@ -92,7 +62,7 @@ function getData(latitude, longitude) {
 }
 
 //consigo el clima de mi ubicacion actual
-myLocalizacion.addEventListener('click', () => {
+miLocalizacion.addEventListener('click', () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }
@@ -103,7 +73,7 @@ myLocalizacion.addEventListener('click', () => {
 })
 
 function onSuccess(position) {
-  hourlyWeatherData.innerHTML = ''
+  climaPorHora.innerHTML = ''
   let { latitude, longitude } = position.coords
   getData(latitude, longitude);
 }
@@ -117,7 +87,7 @@ function mostrarDataCard(data) {
 
 
   var d = new Date(data.current_weather.time);
-  var dayName = days[d.getDay()];
+  var dayName = dias[d.getDay()];
 
   //REVISAR porque mantiene el formate css de CIUDAD
   ciudadLabel.innerText = select.options[select.selectedIndex].text;
@@ -142,7 +112,7 @@ function mostrarDiarioByFor(data) {
     let time_data = data.daily.time[x]
     //obtenemos el nombre del dia
     var d = new Date(time_data);
-    var dayName = days[d.getDay()];
+    var dayName = dias[d.getDay()];
 
     let temp_min = data.daily.temperature_2m_min[x]
     let temp_max = data.daily.temperature_2m_max[x]
@@ -158,7 +128,7 @@ function mostrarDiarioByFor(data) {
     console.log(imagenDiario);
 
 
-    hourlyWeatherData.innerHTML += ` <div class="weather-forecast-item">
+    climaPorHora.innerHTML += ` <div class="weather-forecast-item">
           <div class="hour"> ${(time_data + " " + dayName)}  <span id='am-pm'></span></div>
           <div class="each-weather-item">
            <i class="fa fa-thermometer-half" aria-hidden="true"></i>
