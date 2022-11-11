@@ -3,7 +3,7 @@
 let container = document.getElementById("container");
 let searchForm = document.getElementById("search__submit");
 let searchInput = document.getElementById("search__input")
-let temperatureDegrees = document.getElementById("degreenumber")
+let gradosTemperatura = document.getElementById("degreenumber")
 let velocidadViento = document.getElementById("speedViento")
 let icono = document.getElementById("sun")
 let timezone = document.getElementById("description")
@@ -91,7 +91,7 @@ function mostrarDataCard(data) {
 
   //REVISAR porque mantiene el formate css de CIUDAD
   ciudadLabel.innerText = select.options[select.selectedIndex].text;
-  temperatureDegrees.innerText = data.current_weather.temperature + '°C';
+  gradosTemperatura.innerText = data.current_weather.temperature + '°C';
   velocidadViento.innerText = data.current_weather.windspeed + ' km/h';
   fechaDia.innerText = data.current_weather.time.substring(0, 10) + '--' + dayName;
 
