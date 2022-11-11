@@ -72,6 +72,8 @@ miLocalizacion.addEventListener('click', () => {
 
 })
 
+//HOLIS
+
 function onSuccess(position) {
   climaPorHora.innerHTML = ''
   let { latitude, longitude } = position.coords
