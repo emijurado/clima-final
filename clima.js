@@ -48,7 +48,7 @@ const opcionCambiada = () => {
 
 select.addEventListener("change", opcionCambiada);
 
-
+//holaa
 function getData(latitude, longitude) {
   climaPorHora.innerHTML = ''
 
@@ -60,7 +60,8 @@ function getData(latitude, longitude) {
     })
 
 }
-// hola
+
+//hola
 //consigo el clima de mi ubicacion actual
 miLocalizacion.addEventListener('click', () => {
   if (navigator.geolocation) {
