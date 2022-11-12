@@ -1,9 +1,9 @@
 /*capturar los elementos de DOM pra modificarlos despues */
-
+//definimos variables
 let container = document.getElementById("container");
 let searchForm = document.getElementById("search__submit");
 let searchInput = document.getElementById("search__input")
-let temperatureDegrees = document.getElementById("degreenumber")
+let gradosTemperatura = document.getElementById("degreenumber")
 let velocidadViento = document.getElementById("speedViento")
 let icono = document.getElementById("sun")
 let timezone = document.getElementById("description")
@@ -29,6 +29,7 @@ window.onload = function () {
   getData(-34.61315, -58.37723);
 }
 
+//pregunta que numero del indice desplegable elegimos para planchar el nombre de la ciudad
 const opcionCambiada = () => {
   console.log("Cambio");
   var value = select.value;
@@ -61,7 +62,9 @@ function getData(latitude, longitude) {
 
 }
 
+
 //consigo el clima de mi ubicacion actual
+//localizacion que viene geolocalizador del navegador- 
 miLocalizacion.addEventListener('click', () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -72,18 +75,18 @@ miLocalizacion.addEventListener('click', () => {
 
 })
 
-//HOLIS
-
+//si permitimos la geolocalizacion
 function onSuccess(position) {
   climaPorHora.innerHTML = ''
   let { latitude, longitude } = position.coords
   getData(latitude, longitude);
 }
-
+//sino no lo permitimos
 function onError(error) {
   console.log(error)
 }
 
+////////card gris del dia actual///////////////
 function mostrarDataCard(data) {
   //console.log(data.current_weather)
 
@@ -93,7 +96,7 @@ function mostrarDataCard(data) {
 
   //REVISAR porque mantiene el formate css de CIUDAD
   ciudadLabel.innerText = select.options[select.selectedIndex].text;
-  temperatureDegrees.innerText = data.current_weather.temperature + '°C';
+  gradosTemperatura.innerText = data.current_weather.temperature + '°C';
   velocidadViento.innerText = data.current_weather.windspeed + ' km/h';
   fechaDia.innerText = data.current_weather.time.substring(0, 10) + '--' + dayName;
 
@@ -104,10 +107,13 @@ function mostrarDataCard(data) {
 
 }
 
+////////// card verdes de los dias de la semana ////////////////
 function mostrarDiarioByFor(data) {
   console.log(data.daily)
   console.log(data.daily.sunrise[0])
 
+  //funcion para que haga el bucle diario-for
+  //obtenemos el nombre del dia
   //let otherHoursForecast = '';
   for (let x = 0; x <= 6; x++) {
 
@@ -126,14 +132,14 @@ function mostrarDiarioByFor(data) {
   
     //actualizamos imagen de cada dia
     const imagenDiario = obtenerImagenSegunClima(data.daily.weathercode[x]);
-    console.log(data.daily.weathercode[x]);
+    console.log("x:" + x + " valor: "+ data.daily.weathercode[x]);
     console.log(imagenDiario);
 
-
+//con el html en JS no declaramos las  variables 42 veces-
     climaPorHora.innerHTML += ` <div class="weather-forecast-item">
           <div class="hour"> ${(time_data + " " + dayName)}  <span id='am-pm'></span></div>
           <div class="each-weather-item">
-           <i class="fa fa-thermometer-half" aria-hidden="true"></i>
+          <i class="fa fa-thermometer-half" aria-hidden="true"></i>
           <div class="temp">${temp_min}   &#176;C MIN</div>
           </div>
           <div class="each-weather-item wind-speed">
@@ -150,18 +156,21 @@ function mostrarDiarioByFor(data) {
           </div>
       </div>`
 
+      
   }
 }
 
 
 function obtenerImagenSegunClima(weathercode) {
-  //seguimos esta web en donde esta el codigo
+  //seguimos esta web en donde estan los codigos del clima
   // https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 
+
+  //si es codigo es mayor a 99 que ponga por defecto el "sun"
   switch (weathercode) {
     default:
       return "sun";
-
+//climas genericos
     case 0:
     case 1:
     case 2:
@@ -237,6 +246,7 @@ function obtenerImagenSegunClima(weathercode) {
   }
 }
 
+//actualiza las imagenes de card diarias
 function actualizarImagen(weathercode) {
   const imgClima = document.getElementById('imagenClima');
   const imagen = obtenerImagenSegunClima(weathercode);
